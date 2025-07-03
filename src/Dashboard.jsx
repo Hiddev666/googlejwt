@@ -9,9 +9,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         let token = Cookies.get("token")
-        console.log(token)
+        console.log("[DEBUG] JWT TOKEN: ", token)
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-        axios.get(`${import.meta.env.VITE_API_URL}/api/user`)
+        axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {
+            withCredentials: true
+        })
             .then(res => {
                 setUser(res.data)
                 console.log(res.data)
@@ -27,7 +29,7 @@ export default function Dashboard() {
 
     return (
         <div style={{ textAlign: "center", marginTop: 100 }}>
-            <img src={user.profile_picture} alt={user.profile_picture}/>
+            <img src={user.profile_picture} alt={user.profile_picture} />
             <h1>Welcome, {user.displayName} 🎉</h1>
             <p>Email: {user.email}</p>
             <button onClick={handleLogout}>Logout</button>

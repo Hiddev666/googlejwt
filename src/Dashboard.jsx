@@ -8,7 +8,9 @@ export default function Dashboard() {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
+        let documentCookie = document.cookie
         let token = Cookies.get("token")
+        console.log("[DEBUG] DOCUMENT COOKIE: ", documentCookie)
         console.log("[DEBUG] JWT TOKEN: ", token)
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {

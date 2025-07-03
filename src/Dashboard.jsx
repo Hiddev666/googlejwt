@@ -8,10 +8,16 @@ export default function Dashboard() {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
+        getUser()
+    }, [])
+
+    const getUser = async () => {
         let documentCookie = document.cookie
         let token = Cookies.get("token")
+        let tokenAwait = await Cookies.get("token")
         console.log("[DEBUG] DOCUMENT COOKIE: ", documentCookie)
         console.log("[DEBUG] JWT TOKEN: ", token)
+        console.log("[DEBUG] JWT TOKEN AWAIT: ", tokenAwait)
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {
             withCredentials: true
@@ -21,7 +27,7 @@ export default function Dashboard() {
                 console.log(res.data)
             })
             .catch(err => console.log(err))
-    }, [])
+    }
 
     const handleLogout = () => {
         window.location.href = `${import.meta.env.VITE_API_URL}/logout`
